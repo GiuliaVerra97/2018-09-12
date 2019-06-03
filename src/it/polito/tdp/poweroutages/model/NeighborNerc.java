@@ -1,8 +1,9 @@
 package it.polito.tdp.poweroutages.model;
 
 public class NeighborNerc implements Comparable<NeighborNerc>{
-	Nerc nerc;
-	int correlation;
+	
+	private Nerc nerc;
+	private int correlation;		//peso
 	
 	public NeighborNerc(Nerc nerc, int correlation){
 		this.nerc = nerc;

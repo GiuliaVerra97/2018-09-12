@@ -11,9 +11,43 @@ import java.sql.SQLException;
 
 import it.polito.tdp.poweroutages.model.Nerc;
 import it.polito.tdp.poweroutages.model.NercIdMap;
+import it.polito.tdp.poweroutages.model.PowerOutage;
 
 public class PowerOutagesDAO {
 	
+	
+public 	List<PowerOutage> loadAllPowerOutages(NercIdMap mappa){
+		
+		String sql = "SELECT id, nerc_id, date_event_began,date_event_finished FROM poweroutages value";
+		List<PowerOutage> lista = new ArrayList<>();
+
+		try {
+			Connection conn = ConnectDB.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			ResultSet res = st.executeQuery();
+
+			while (res.next()) {
+				 PowerOutage p= new PowerOutage(res.getInt("id"), mappa.get(res.getInt("nerc_id")), res.getTimestamp("date_event_began").toLocalDateTime(), res.getTimestamp("date_event_finished").toLocalDateTime());
+				 lista.add(p);
+			}
+
+			conn.close();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+		return lista;
+		
+		
+		
+	}
+
+
+
+
+
+
 	public List<Nerc> loadAllNercs(NercIdMap nIdMap) {
 
 		String sql = "SELECT id, value FROM nerc";
@@ -25,8 +59,17 @@ public class PowerOutagesDAO {
 			ResultSet res = st.executeQuery();
 
 			while (res.next()) {
-				Nerc n = new Nerc(res.getInt("id"), res.getString("value"));
-				nercList.add(nIdMap.get(n));
+				
+				
+				if(nIdMap.get(res.getInt("id"))==null) {
+					Nerc n = new Nerc(res.getInt("id"), res.getString("value"));
+					nIdMap.put(res.getInt("id"), n);
+					nercList.add(n);
+				}else {
+					nercList.add(nIdMap.get(res.getInt("id")));
+				}
+				
+			
 			}
 
 			conn.close();
@@ -38,6 +81,16 @@ public class PowerOutagesDAO {
 		return nercList;
 	}
 
+	
+	
+	
+	/**
+	 * Restituisce i vicini di ciascun NERC
+	 * @param nIdMap
+	 * @param nerc
+	 * @return lista di NERC
+	 */
+	
 	public Set<Nerc> getNeighbors(NercIdMap nIdMap, Nerc nerc) {
 		String sql = "SELECT nerc_one FROM NercRelations WHERE nerc_two = ?";
 		Set<Nerc> neighbors = new HashSet<Nerc>();
@@ -67,12 +120,23 @@ public class PowerOutagesDAO {
 			throw new RuntimeException("Error Connection Database");
 		}
 	}
+	
+	
+	
+	
+	/**
+	 * Metodo che mi permette di calcolare il peso di ciascun arco secondo le specifiche indicate
+	 * @param nerc
+	 * @param neighbor
+	 * @return intero
+	 */
 
 	public int getCorrelation(Nerc nerc, Nerc neighbor) {
 		String sql = "select distinct year(p1.date_event_began), month(p1.date_event_began) "
 				+ "from poweroutages p1, poweroutages p2 "
 				+ "where p1.nerc_id=? and p2.nerc_id=? and month(p1.date_event_began)=month(p2.date_event_began) "
 				+ "and year(p1.date_event_began)=year(p2.date_event_began)";
+	
 		int count = 0;
 
 		try{
