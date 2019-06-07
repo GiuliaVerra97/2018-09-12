@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="420.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="it.polito.tdp.poweroutages.PowerOutagesController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polito.tdp.poweroutages.PowerOutagesController">
 	<bottom>
 		<TextArea fx:id="txtResult" prefHeight="222.0" prefWidth="600.0" BorderPane.alignment="CENTER">
 			<BorderPane.margin>
@@ -50,7 +50,7 @@
 								<Insets left="20.0" />
 							</HBox.margin>
 						</ComboBox>
-						<Button fx:id="btnVisualizzaVicini" mnemonicParsing="false" onAction="#doVisualizzaVicini" prefWidth="150.0" text="Visualizza Vicini">
+						<Button fx:id="btnVisualizzaVicini" disable="true" mnemonicParsing="false" onAction="#doVisualizzaVicini" prefWidth="150.0" text="Visualizza Vicini">
 							<HBox.margin>
 								<Insets left="10.0" />
 							</HBox.margin>
@@ -72,7 +72,7 @@
 								<Insets left="20.0" />
 							</HBox.margin>
 						</TextField>
-						<Button fx:id="btnSimula" mnemonicParsing="false" onAction="#doSimula" prefWidth="150.0" text="Simula">
+						<Button fx:id="btnSimula" disable="true" mnemonicParsing="false" onAction="#doSimula" prefWidth="150.0" text="Simula">
 							<HBox.margin>
 								<Insets left="10.0" />
 							</HBox.margin>

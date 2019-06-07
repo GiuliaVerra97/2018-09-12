@@ -47,16 +47,27 @@ public class PowerOutagesController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-    	this.model.creaGrafo();
-    }
-
-    @FXML
-    void doSimula(ActionEvent event) {
     	
+    	txtResult.clear();
+    	
+    	this.model.creaGrafo();
+    	
+    	int numVertici=model.getGraph().vertexSet().size();
+    	int numArchi=model.getGraph().edgeSet().size();
+    	
+    	txtResult.appendText("Creato grafo con "+numVertici+" vertici e "+numArchi+" archi");
+    	
+    	btnVisualizzaVicini.setDisable(false);
+    	btnSimula.setDisable(false);
     }
-
+    
+    
+    
     @FXML
     void doVisualizzaVicini(ActionEvent event) {
+    	
+    	txtResult.clear();
+    	
     	this.txtResult.clear();
     	if(this.cmbBoxNerc.getValue() == null){
     		this.txtResult.setText("SELEZIONARE UN NERC");
@@ -66,6 +77,14 @@ public class PowerOutagesController {
         	}
     	}
     }
+    
+
+    @FXML
+    void doSimula(ActionEvent event) {
+    	
+    }
+
+
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {

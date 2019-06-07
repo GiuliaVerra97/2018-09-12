@@ -87,7 +87,16 @@ public class Model {
 		sim.init(k,dao.loadAllPowerOutages(nIdMap), nIdMap, graph);
 		sim.run();
 	}
-	
+
+
+
+
+	//get
+	public SimpleWeightedGraph<Nerc, DefaultWeightedEdge> getGraph() {
+		return graph;
+	}
+
+
 	
 	
 	
